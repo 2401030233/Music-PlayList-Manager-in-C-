@@ -1,2 +1,2 @@
-# Music-PlayList-Manager-in-C-
+# Music-PlayList-Manager-in-C++
 Made by Rishabh Naharwal
