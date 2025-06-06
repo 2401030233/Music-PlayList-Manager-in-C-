@@ -1,7 +1,10 @@
 # include <iostream>
 # include <string>
+# include <cstdlib>
+# include <ctime>
 using namespace std;
 int listSize=0; //global variable for O(1) time complexity
+string musicExtensionType;
 struct Node
 {
     Node *prev;
@@ -11,6 +14,18 @@ struct Node
     Node *next;
 } *head=nullptr, *rear=nullptr;
 Node *current=nullptr;
+void showExtensionsMenu ()
+{
+    cout<<"\n=================================Music Files Extensions' Menu=================================\n";
+    cout<<"\n   Extension                              Utility\n";
+    cout<<"\n1) .mp3 [MP3]  =  [Most widely used format. Highly compressed (lossy), small size, good quality.]\n";
+    cout<<"2) .wav [WAV]  =  [Very common in audio editing and recording. Uncompressed, high quality.]\n";
+    cout<<"3) .m4a [M4A]  =  [Often used in Apple devices and iTunes. Good balance of size and quality.]\n";
+    cout<<"4) .aac [AAC]  =  [Used by YouTube, Apple Music, iTunes, and many streaming services.]\n";
+    cout<<"5) .flac [FLAC]  =  [Popular for audiophiles. Lossless compression, great sound quality.]\n";
+    cout<<"6) .ogg [OGG]  =  [Open source alternative to MP3, used in gaming and streaming (Spotify)]\n";
+    cout<<"\nInput choice : ";
+}
 void createNode (int x, string n, double d)
 {
     listSize++;
@@ -48,7 +63,7 @@ void playCurrent ()
         }
         else
         {
-            cout<<"\nCurrent song begin played : [ "<<current->songID<<", "<<current->name<<", "<<current->duration<<" sec. ]"<<endl;
+            cout<<"\nCurrent song begin played : [ "<<current->songID<<", "<<current->name<<musicExtensionType<<", "<<current->duration<<" sec. ]"<<endl;
         }
     }
 }
@@ -71,7 +86,7 @@ void simulateNext ()
         else
         {
             current=current->next;
-            cout<<"\nSimulated to Next song..\nNow playing : [ "<<current->songID<<", "<<current->name<<", "<<current->duration<<" sec. ]"<<endl;
+            cout<<"\nSimulated to Next song..\nNow playing : [ "<<current->songID<<", "<<current->name<<musicExtensionType<<", "<<current->duration<<" sec. ]"<<endl;
         }
     }
 }
@@ -94,7 +109,7 @@ void simulatePrevious ()
         else
         {
             current=current->prev;
-            cout<<"\nSimulated to previous song..\nNow playing : [ "<<current->songID<<", "<<current->name<<", "<<current->duration<<" sec. ]"<<endl;
+            cout<<"\nSimulated to previous song..\nNow playing : [ "<<current->songID<<", "<<current->name<<musicExtensionType<<", "<<current->duration<<" sec. ]"<<endl;
         }
     }
 }
@@ -134,7 +149,7 @@ void displayPlayListForward ()
         cout<<"\nDisplaying PlayList (Forward) : ";
         while (temp!=nullptr)
         {
-            cout<<"[ "<<temp->songID<<", "<<temp->name<<", "<<temp->duration<<" sec. ] -> ";
+            cout<<"[ "<<temp->songID<<", "<<temp->name<<musicExtensionType<<", "<<temp->duration<<" sec. ] -> ";
             temp=temp->next;
         }
         cout<<"NULL\n";
@@ -152,7 +167,7 @@ void displayPlayListBackward ()
         cout<<"\nDisplaying PlayList (Backward) : ";
         while (temp!=nullptr)
         {
-            cout<<"[ "<<temp->songID<<", "<<temp->name<<", "<<temp->duration<<" sec. ] -> ";
+            cout<<"[ "<<temp->songID<<", "<<temp->name<<musicExtensionType<<", "<<temp->duration<<" sec. ] -> ";
             temp=temp->prev;
         }
         cout<<"NULL\n";
@@ -359,7 +374,7 @@ void searchSongByID (int ID)
             if (temp->songID==ID)
             {
                 flag=1;
-                cout<<"\nSong with ID : "<<temp->songID<<" found at position : "<<i<<endl;
+                cout<<"\nSong : [ "<<temp->songID<<", "<<temp->name<<musicExtensionType<<", "<<temp->duration<<" sec. ] found at position : "<<i<<endl;
                 break;
             }
             temp=temp->next;
@@ -395,7 +410,7 @@ void searchSongByPosition (int pos)
                     if (i==pos)
                     {
                         flag=1;
-                        cout<<"\nSong with ID : "<<temp->songID<<" found at position : "<<pos<<endl;
+                        cout<<"\nSong : [ "<<temp->songID<<", "<<temp->name<<musicExtensionType<<", "<<temp->duration<<" sec. ] found at position : "<<pos<<endl;
                         break;
                     }
                     temp=temp->next;
@@ -448,14 +463,49 @@ void displayMenu ()
     cout<<"   6.Display PlayList (Backward)\n7.Delete first song\t      8.Delete last song";
     cout<<"             9.Delete pos specified song\n10.Search song by ID\t      11.Search song by position";
     cout<<"     12.Delete song by ID\n13.Count songs in PlayList    14.Play Current Song\t     ";
-    cout<<"15.Simulate NEXT\n16.Simulate PREV\t      17.Exit\n";
+    cout<<"15.Simulate NEXT\n16.Simulate PREV\t      17.Play random song\t     18.Exit\n";
     cout<<"\nInput choice : ";
 }
 int main (void)
 {
-    int ch, x, pos;
+    bool should_continue = true;
+    int ch, ch1, x, pos;
     string n;
     double d;
+    while (should_continue==true)
+    {
+        showExtensionsMenu ();
+        cin>>ch1;
+        switch (ch1)
+        {
+        case 1:
+            musicExtensionType = ".mp3";
+            should_continue = false;
+            break;
+        case 2:
+            musicExtensionType = ".wav";
+            should_continue = false;
+            break;
+        case 3:
+            musicExtensionType = ".m4a";
+            should_continue = false;
+            break;
+        case 4:
+            musicExtensionType = ".aac";
+            should_continue = false;
+            break;
+        case 5:
+            musicExtensionType = ".flac";
+            should_continue = false;
+            break;
+        case 6:
+            musicExtensionType = ".ogg";
+            should_continue = false;
+            break;
+        default:
+            cout<<"\nALERT : Invalid extension type selected!\nRe-type the input for it..\n";
+        }
+    }
     do
     {
         displayMenu ();
