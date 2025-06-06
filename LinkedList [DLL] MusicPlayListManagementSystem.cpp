@@ -98,6 +98,30 @@ void simulatePrevious ()
         }
     }
 }
+void playRandomSong ()
+{
+    if (head==nullptr)
+    {
+        cout<<"\nALERT : PlayList is empty!\nNothing to play right now!\n";
+    }
+    else
+    {
+        srand (time(0));
+        int random_number = (rand () % listSize) + 1;
+        Node *temp=head;
+        int i=0;
+        while (temp!=nullptr)
+        {
+            i++;
+            if (i==random_number)
+            {
+                current = temp;
+                playCurrent ();
+            }
+            temp=temp->next;
+        }
+    }
+}
 void displayPlayListForward ()
 {
     if (head==nullptr)
@@ -525,6 +549,9 @@ int main (void)
             simulatePrevious ();
             break;
         case 17:
+            playRandomSong ();
+            break;
+        case 18:
             cout<<"\n======[Exiting the program...]======\n";
             exit (0);
             break;
@@ -532,6 +559,6 @@ int main (void)
             cout<<"\nInput valid choice!\n";
         }
     }
-    while (ch!=17);
+    while (ch!=18);
     return 0;
 }
